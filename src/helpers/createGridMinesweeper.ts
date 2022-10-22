@@ -1,4 +1,4 @@
-type rowMinesweeper = number[]
+export type rowMinesweeper = number[]
 
 // 0 - Is empty cell
 // 9 - Is mine cell
