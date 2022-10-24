@@ -13,9 +13,9 @@ function App() {
       <h1>MINESWEEPER</h1>
       
       <GameMinesweeper 
-        width={30} 
-        height={20} 
-        mines={50} 
+        width={3} 
+        height={2} 
+        mines={1} 
         onStatusLost={onStatusLost} 
         onStatusWin={onStatusWin}
       />

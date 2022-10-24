@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react';
 
 import { createGridMinesweeper, rowGrid } from '../helpers/createGridMinesweeper';
 import { cleanCurrentCell } from '../helpers/cleanCurrentCell';
-import { cleanAroundCell } from '../helpers/cleanAroundCell';
-
-import "../styles/game-minesweeper.scss"
 import { detectCellAround } from '../helpers/detectCellAround';
 import { cleanBagEmptyCells } from '../helpers/cleanBagEmptyCells';
+
+import "../styles/game-minesweeper.scss"
+import { checkWin } from '../helpers/checkWin';
+import { checkRemainingCells } from '../helpers/checkRemainingCells';
 
 interface props {
     width: number,
@@ -17,10 +18,12 @@ interface props {
 }
 
 export const GameMinesweeper = ({width, height, mines, onStatusLost, onStatusWin}: props) => {
-    const [update, setUpdate] = useState(0)
-    const [remainingMines, setRemainingMines] = useState(mines)
+    const [update, setUpdate] = useState<number>(0)
+    const [remainingMines, setRemainingMines] = useState<number>(mines)
     const [gridMinesweeper, setGridMinesweeper] = useState<rowGrid[]>([[]])
+    const [remainingCells, setRemainingCells] = useState<number>()
     useEffect(() => { setGridMinesweeper(createGridMinesweeper(height, width, mines)) }, [])
+    useEffect(() => {checkWin(remainingCells, onStatusWin)},[remainingCells])
 
     const onClickLeftCell = (event: any, row: number, column: number) => {
         const cellClicked = gridMinesweeper[row][column]
@@ -49,24 +52,26 @@ export const GameMinesweeper = ({width, height, mines, onStatusLost, onStatusWin
             }
 
         setUpdate(update + 1)
-    }
-
-    const onClickRightCell = (event: any, row: number, column: number) => {
-        const cellClicked = gridMinesweeper[row][column]
-
-            if (cellClicked.status === "hidden") { // Click Right in hidden cell
-                setRemainingMines(remainingMines - 1)
-                cellClicked.status = "marked"
-
-            } else if (cellClicked.status === "marked") { // Click Right in marked cell
-                setRemainingMines(remainingMines + 1)
-                cellClicked.status = "hidden"
-            }
-
-        setUpdate(update + 1)
+        checkRemainingCells(gridMinesweeper, setRemainingCells)
     }
     
-
+    const onClickRightCell = (event: any, row: number, column: number) => {
+        const cellClicked = gridMinesweeper[row][column]
+        
+        if (cellClicked.status === "hidden") { // Click Right in hidden cell
+            setRemainingMines(remainingMines - 1)
+            cellClicked.status = "marked"
+            
+        } else if (cellClicked.status === "marked") { // Click Right in marked cell
+            setRemainingMines(remainingMines + 1)
+            cellClicked.status = "hidden"
+        }
+        
+        setUpdate(update + 1)        
+        checkRemainingCells(gridMinesweeper, setRemainingCells)
+    }
+    
+    
     return (
         <div className='grid-minesweeper'>
             <h3>Minas restantes {remainingMines}</h3>
