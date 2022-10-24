@@ -1,6 +1,7 @@
-import { rowGrid, Cell } from './createGridMinesweeper';
+import { rowGrid } from './createGridMinesweeper';
 import { detectCellAround } from './detectCellAround';
 import { cleanAroundCell } from './cleanAroundCell';
+
 export const cleanBagEmptyCells = (
     grid: rowGrid[],
     row: number,
@@ -18,7 +19,6 @@ export const cleanBagEmptyCells = (
             newQueueCellEmpty.forEach(({coord, type}) => {
                 detectCellAround(grid, coord[0], coord[1], limitX, limitY).map(
                     cell => { if(cell.status === "hidden" && cell.type === "cell-empty") {
-                        console.log("Se activo este")
                         queueCellEmpty.push(cell)
                     }}
                 )
