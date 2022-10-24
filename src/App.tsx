@@ -13,7 +13,7 @@ function App() {
       <h1>MINESWEEPER</h1>
       
       <GameMinesweeper 
-        width={20} 
+        width={10} 
         height={10} 
         mines={20} 
         onStatusLost={onStatusLost} 
