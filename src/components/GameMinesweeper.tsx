@@ -8,6 +8,9 @@ import { cleanBagEmptyCells } from '../helpers/cleanBagEmptyCells';
 import "../styles/game-minesweeper.scss"
 import { checkWin } from '../helpers/checkWin';
 import { checkRemainingCells } from '../helpers/checkRemainingCells';
+import { NumCell } from './NumCell';
+import { BombCell } from './BombCell';
+import { EmptyCell } from './EmptyCell';
 
 interface props {
     width: number,
@@ -71,20 +74,22 @@ export const GameMinesweeper = ({width, height, mines, onStatusLost, onStatusWin
         checkRemainingCells(gridMinesweeper, setRemainingCells)
     }
     
-    
     return (
         <div className='grid-minesweeper'>
             <h3>Minas restantes {remainingMines}</h3>
             {
                 gridMinesweeper.map((row, rowIndex) => <div key={"row"+rowIndex} className='row-cell'>
                 {row.map(({number, status, type}, columnIndex) => 
-                    <div key={"cell"+columnIndex} className='cell'>
-                        {type === "cell-number" ? <div className='text-cell'>{number}</div> : undefined} 
-                        {type === "cell-bomb" ? <div className='text-cell'>bomb</div> : undefined} 
-                        {type === "cell-empty" ? <div className='text-cell'></div> : undefined} 
+                    <div key={"cell"+columnIndex} className='cell' style={{
+                        backgroundColor: type === "cell-bomb" ? "red" : undefined ,
+                        fontSize: type === "cell-bomb" ? "red" : undefined 
+                        }}>
+                        {type === "cell-number" ? <NumCell number={number}/> : undefined} 
+                        {type === "cell-bomb" ? <BombCell/> : undefined} 
+                        {type === "cell-empty" ? <EmptyCell/> : undefined} 
 
-                        {status === "hidden" ? <div className='hidden-cell' /> : undefined} 
-                        {status === "marked" ? <div className='marked-cell' /> : undefined} 
+                        {/* {status === "hidden" ? <div className='hidden-cell' /> : undefined}  */}
+                        {status === "marked" ? <div className='marked-cell'><i className="fa-solid fa-flag"></i></div> : undefined} 
 
                         <div 
                             className='hitbox-cell' 
