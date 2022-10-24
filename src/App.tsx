@@ -15,7 +15,7 @@ function App() {
       <GameMinesweeper 
         width={10} 
         height={10} 
-        mines={20} 
+        mines={5} 
         onStatusLost={onStatusLost} 
         onStatusWin={onStatusWin}
       />

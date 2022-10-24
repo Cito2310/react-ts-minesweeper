@@ -6,6 +6,7 @@ import { cleanAroundCell } from '../helpers/cleanAroundCell';
 
 import "../styles/game-minesweeper.scss"
 import { detectCellAround } from '../helpers/detectCellAround';
+import { cleanBagEmptyCells } from '../helpers/cleanBagEmptyCells';
 
 interface props {
     width: number,
@@ -25,7 +26,7 @@ export const GameMinesweeper = ({width, height, mines, onStatusLost, onStatusWin
 
         } else if (gridMinesweeper[row][column].type === "cell-empty") {
             cleanCurrentCell(gridMinesweeper, row, column)
-            console.log(detectCellAround(gridMinesweeper, row, column, width-1, height-1))
+            cleanBagEmptyCells(gridMinesweeper, row, column, width-1, height-1)
             cleanAroundCell(gridMinesweeper, row, column, width-1, height-1)
             setUpdate(update + 1)
             
