@@ -79,26 +79,32 @@ export const GameMinesweeper = ({width, height, mines, onStatusLost, onStatusWin
             <h3>Minas restantes {remainingMines}</h3>
             {
                 gridMinesweeper.map((row, rowIndex) => <div key={"row"+rowIndex} className='row-cell'>
-                {row.map(({number, status, type}, columnIndex) => 
-                    <div key={"cell"+columnIndex} className='cell' style={{
-                        backgroundColor: type === "cell-bomb" ? "red" : undefined ,
-                        fontSize: type === "cell-bomb" ? "red" : undefined 
-                        }}>
-                        {type === "cell-number" ? <NumCell number={number}/> : undefined} 
-                        {type === "cell-bomb" ? <BombCell/> : undefined} 
-                        {type === "cell-empty" ? <EmptyCell/> : undefined} 
-
-                        {/* {status === "hidden" ? <div className='hidden-cell' /> : undefined}  */}
-                        {status === "marked" ? <div className='marked-cell'><i className="fa-solid fa-flag"></i></div> : undefined} 
-
-                        <div 
-                            className='hitbox-cell' 
-                            onContextMenu={(event)=>{event.preventDefault()}}
-                            onClick={(event)=>{onClickLeftCell(event, rowIndex, columnIndex)}}
-                            onAuxClick={(event)=>{onClickRightCell(event, rowIndex, columnIndex)}}
-                        ></div>
-                    </div>
-                )}
+                {row.map((cell, columnIndex) => {
+                    switch (cell.type) {
+                        case "cell-bomb": return <BombCell
+                            status={cell.status}
+                            index={columnIndex}
+                            rowIndex={rowIndex}
+                            onClickLeftCell={onClickLeftCell}
+                            onClickRightCell={onClickRightCell}
+                        />
+                        case "cell-empty": return <EmptyCell
+                            status={cell.status}
+                            index={columnIndex}
+                            rowIndex={rowIndex}
+                            onClickLeftCell={onClickLeftCell}
+                            onClickRightCell={onClickRightCell}
+                        />
+                        case "cell-number": return <NumCell
+                            number={cell.number}
+                            status={cell.status}
+                            index={columnIndex}
+                            rowIndex={rowIndex}
+                            onClickLeftCell={onClickLeftCell}
+                            onClickRightCell={onClickRightCell}
+                        />
+                        default: return <div/>;
+                    }})}
                 </div>)
             }
         </div>

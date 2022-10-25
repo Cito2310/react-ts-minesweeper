@@ -9,9 +9,9 @@ export class Cell {
         ) {}
     }
 
-type TType = "cell-bomb" | "cell-number" | "cell-empty";
+export type TType = "cell-bomb" | "cell-number" | "cell-empty";
 type TCoord = [number, number];
-type TStatus = ("reveal" | "hidden" | "marked");
+export type TStatus = ("reveal" | "hidden" | "marked");
 
     
 export const createGridMinesweeper = ( row: number, column: number, mines: number ): rowGrid[] => {
