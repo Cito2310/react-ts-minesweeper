@@ -27,7 +27,7 @@ export const GameMinesweeper = () => {
     const [gridMinesweeper, setGridMinesweeper] = useState<rowGrid[]>([[]])
     const [remainingCells, setRemainingCells] = useState<number>()
     useEffect(() => { setGridMinesweeper(createGridMinesweeper(height, width, mines)) }, [])
-
+    
     const onClickLeftCell = (event: any, row: number, column: number) => {
         const cellClicked = gridMinesweeper[row][column]
 

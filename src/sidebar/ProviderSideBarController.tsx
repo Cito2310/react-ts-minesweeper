@@ -1,14 +1,14 @@
 import { createContext, useState } from 'react';
 
+interface props { children: JSX.Element | JSX.Element[] }
 export interface ISideBar {
-    children?: React.ReactNode,
-    sidebarOpen?: boolean,
-    toggleSidebar?: () => void,
+    sidebarOpen: boolean,
+    toggleSidebar: () => void,
 }
 
-export const contextSideBar = createContext<ISideBar>({})
+export const contextSideBar = createContext<ISideBar>({} as ISideBar)
 
-export const ProviderSideBar: React.FC<ISideBar> = ({children}) => {
+export const ProviderSideBar = ({children}: props) => {
     const [sidebarOpen, setSidebarOpen] = useState(false);
     const toggleSidebar = () => {setSidebarOpen(!sidebarOpen)}
 

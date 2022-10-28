@@ -1,18 +1,18 @@
 import { createContext, useState } from 'react';
 import { IGridMinesweeper } from '../form-config-grid/FormConfigGrid';
 
+
 export interface IMinesweeper {
-    children?: React.ReactNode,
     mines: number,
     sumMines: () => void,
     subMines: () => void,
     height: number,
     width: number,
 }
-// @ts-ignore
-export const contextGridConfig = createContext<IMinesweeper>()
+export const contextGridConfig = createContext<IMinesweeper>({} as IMinesweeper)
 
-export const ProviderMinesweeper: React.FC<IMinesweeper> = ({children}) => {
+interface props { children: JSX.Element | JSX.Element[] }
+export const ProviderMinesweeper = ({children}: props) => {
     let gridDefaultConfig: IGridMinesweeper = {mines: 30, height: 30, width: 20}
     if (localStorage.getItem("grid-config")) {
         gridDefaultConfig = JSON.parse(localStorage.getItem("grid-config") || "{}")

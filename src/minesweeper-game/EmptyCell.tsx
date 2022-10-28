@@ -2,7 +2,7 @@ import cellEmpty from "../assets/cell/minesweeper-cell-empty.png"
 import cellHidden from "../assets/cell/minesweeper-cell-hidden.png"
 import cellMarked from "../assets/cell/minesweeper-cell-marked.png"
 
-import { TStatus } from '../helpers/createGridMinesweeper';
+import { TStatus } from './helpers/createGridMinesweeper';
 
 interface props {
     index: number,
