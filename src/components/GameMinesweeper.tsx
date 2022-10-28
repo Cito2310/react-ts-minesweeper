@@ -1,28 +1,29 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 
 import { createGridMinesweeper, rowGrid } from '../helpers/createGridMinesweeper';
 import { cleanCurrentCell } from '../helpers/cleanCurrentCell';
 import { detectCellAround } from '../helpers/detectCellAround';
 import { cleanBagEmptyCells } from '../helpers/cleanBagEmptyCells';
-
-import "../styles/game-minesweeper.scss"
 import { checkWin } from '../helpers/checkWin';
 import { checkRemainingCells } from '../helpers/checkRemainingCells';
+
 import { NumCell } from './NumCell';
 import { BombCell } from './BombCell';
 import { EmptyCell } from './EmptyCell';
 
+import "../styles/game-minesweeper.scss"
+import { SettingMinesweeperContext } from '../provider/ProviderSettingMinesweeper';
+
+
 interface props {
-    width: number,
-    height: number,
-    mines: number,
     onStatusWin: () => void,
     onStatusLost: () => void,
 }
 
-export const GameMinesweeper = ({width, height, mines, onStatusLost, onStatusWin}: props) => {
+export const GameMinesweeper = ({onStatusLost, onStatusWin }: props) => {
+    const { mines, setMines, height, width } = useContext(SettingMinesweeperContext)
+
     const [update, setUpdate] = useState<number>(0)
-    const [remainingMines, setRemainingMines] = useState<number>(mines)
     const [gridMinesweeper, setGridMinesweeper] = useState<rowGrid[]>([[]])
     const [remainingCells, setRemainingCells] = useState<number>()
     useEffect(() => { setGridMinesweeper(createGridMinesweeper(height, width, mines)) }, [])
@@ -62,11 +63,11 @@ export const GameMinesweeper = ({width, height, mines, onStatusLost, onStatusWin
         const cellClicked = gridMinesweeper[row][column]
         
         if (cellClicked.status === "hidden") { // Click Right in hidden cell
-            setRemainingMines(remainingMines - 1)
+            setMines(mines - 1)
             cellClicked.status = "marked"
             
         } else if (cellClicked.status === "marked") { // Click Right in marked cell
-            setRemainingMines(remainingMines + 1)
+            setMines(mines + 1)
             cellClicked.status = "hidden"
         }
         
@@ -76,7 +77,6 @@ export const GameMinesweeper = ({width, height, mines, onStatusLost, onStatusWin
     
     return (
         <div className='grid-minesweeper'>
-            <h3>Minas restantes {remainingMines}</h3>
             {
                 gridMinesweeper.map((row, rowIndex) => <div key={"row"+rowIndex} className='row-cell'>
                 {row.map((cell, columnIndex) => {

@@ -1,0 +1,37 @@
+.topbar {
+    background-color: red;
+    cursor: default;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 1em;
+
+    .topbar-section {
+        display: flex;
+
+        
+        h1 {
+            font-family: Montserrat;
+            margin: 0.2em 0;
+        }
+
+        h2 {
+            font-family: "Source Sans Pro";
+            font-size: 1.4em;
+            font-weight: 600;
+            margin: auto;
+        }
+
+        .btn-toggle-sidebar {
+            all:unset;
+            font-size: 1.2em;
+            margin: auto;
+            margin-left: 10px;
+            padding: 0.2em 0.3em;
+            cursor: pointer;
+
+            &:hover {
+                text-shadow: 0px 0px 5px rgba($color: #000000, $alpha: 0.5);
+            }
+        }
+    }
+}
