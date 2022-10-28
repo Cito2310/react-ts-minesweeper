@@ -27,7 +27,7 @@ export const GameMinesweeper = () => {
     const [gridMinesweeper, setGridMinesweeper] = useState<rowGrid[]>([[]])
     const [remainingCells, setRemainingCells] = useState<number>()
     useEffect(() => { setGridMinesweeper(createGridMinesweeper(height, width, mines)) }, [])
-    
+
     const onClickLeftCell = (event: any, row: number, column: number) => {
         const cellClicked = gridMinesweeper[row][column]
 
@@ -81,6 +81,7 @@ export const GameMinesweeper = () => {
                 {row.map((cell, columnIndex) => {
                     switch (cell.type) {
                         case "cell-bomb": return <BombCell
+                            key={"cell"+columnIndex}
                             status={cell.status}
                             index={columnIndex}
                             rowIndex={rowIndex}
@@ -88,6 +89,7 @@ export const GameMinesweeper = () => {
                             onClickRightCell={onClickRightCell}
                         />
                         case "cell-empty": return <EmptyCell
+                            key={"cell"+columnIndex}
                             status={cell.status}
                             index={columnIndex}
                             rowIndex={rowIndex}
@@ -95,6 +97,7 @@ export const GameMinesweeper = () => {
                             onClickRightCell={onClickRightCell}
                         />
                         case "cell-number": return <NumCell
+                            key={"cell"+columnIndex}
                             number={cell.number}
                             status={cell.status}
                             index={columnIndex}
