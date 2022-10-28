@@ -4,18 +4,14 @@ import "./form-option.scss"
 import { useForm } from './useForm';
 import { useEffect } from 'react';
 
-interface IGridMinesweeper {
+export interface IGridMinesweeper {
     mines: number,
     width: number,
     height: number,
 }
 
 export const FormConfigGrid = () => {
-    let initialGrid: IGridMinesweeper = {
-        mines: 10,
-        width: 10,
-        height: 10
-    }
+    let initialGrid: IGridMinesweeper = {mines: 30, width: 30, height: 20}
     useEffect(() => {
         if (!localStorage.getItem("grid-config")) {
             localStorage.setItem("grid-config", JSON.stringify(initialGrid))

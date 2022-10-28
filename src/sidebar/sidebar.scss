@@ -11,6 +11,7 @@ html,body {overflow-x: hidden} //required for sidebar right
   top: 0px; //Required
   transition: right 0.3s, left 0.4s ease-in-out;
   width: $width-sidebar; //Required
+  z-index: 1; //Required
 }
 
 .sidebar.left {left: -$width-sidebar} //required - left sidebar

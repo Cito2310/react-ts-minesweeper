@@ -1,33 +1,32 @@
 import { useContext, useEffect, useState } from 'react';
 
-import { createGridMinesweeper, rowGrid } from '../helpers/createGridMinesweeper';
-import { cleanCurrentCell } from '../helpers/cleanCurrentCell';
-import { detectCellAround } from '../helpers/detectCellAround';
-import { cleanBagEmptyCells } from '../helpers/cleanBagEmptyCells';
-import { checkWin } from '../helpers/checkWin';
-import { checkRemainingCells } from '../helpers/checkRemainingCells';
+import { createGridMinesweeper, rowGrid } from './helpers/createGridMinesweeper';
+import { cleanCurrentCell } from './helpers/cleanCurrentCell';
+import { detectCellAround } from './helpers/detectCellAround';
+import { cleanBagEmptyCells } from './helpers/cleanBagEmptyCells';
+import { checkWin } from './helpers/checkWin';
+import { checkRemainingCells } from './helpers/checkRemainingCells';
 
 import { NumCell } from './NumCell';
 import { BombCell } from './BombCell';
 import { EmptyCell } from './EmptyCell';
 
-import "../styles/game-minesweeper.scss"
-import { SettingMinesweeperContext } from '../provider/ProviderSettingMinesweeper';
+import "./game-minesweeper.scss"
+import { contextGridConfig, IMinesweeper } from './ProviderMinesweeper';
 
-
-interface props {
-    onStatusWin: () => void,
-    onStatusLost: () => void,
-}
-
-export const GameMinesweeper = ({onStatusLost, onStatusWin }: props) => {
-    const { mines, setMines, height, width } = useContext(SettingMinesweeperContext)
+export const GameMinesweeper = () => {
+    const {
+        height, 
+        mines, 
+        subMines, 
+        sumMines, 
+        width
+    } = useContext<IMinesweeper>(contextGridConfig)
 
     const [update, setUpdate] = useState<number>(0)
     const [gridMinesweeper, setGridMinesweeper] = useState<rowGrid[]>([[]])
     const [remainingCells, setRemainingCells] = useState<number>()
     useEffect(() => { setGridMinesweeper(createGridMinesweeper(height, width, mines)) }, [])
-    useEffect(() => {checkWin(remainingCells, onStatusWin)},[remainingCells])
 
     const onClickLeftCell = (event: any, row: number, column: number) => {
         const cellClicked = gridMinesweeper[row][column]
@@ -41,7 +40,7 @@ export const GameMinesweeper = ({onStatusLost, onStatusWin }: props) => {
                         .filter(cell => {cleanCurrentCell(gridMinesweeper, cell.coord[0], cell.coord[1]); return true})
 
                     cellHidden.forEach(cell => {if (cell.type === "cell-empty") {cleanBagEmptyCells(gridMinesweeper, cell.coord[0], cell.coord[1], width-1, height-1)}})
-                    cellHidden.forEach(cell => {if (cell.type === "cell-bomb") {onStatusLost()}})
+                    // cellHidden.forEach(cell => {if (cell.type === "cell-bomb") {onStatusLost()}})
                 }
 
             } else if (cellClicked.type === "cell-empty" && cellClicked.status === "hidden") { // Click Left in hidden cell empty
@@ -49,7 +48,7 @@ export const GameMinesweeper = ({onStatusLost, onStatusWin }: props) => {
                 
             } else if (cellClicked.type === "cell-bomb" && cellClicked.status === "hidden") { // Click Left in hidden cell bomb
                 cleanCurrentCell(gridMinesweeper, row, column)
-                onStatusLost()
+                // onStatusLost()
                 
             } else if (cellClicked.type === "cell-number" && cellClicked.status === "hidden") { // Click Left in hidden cell number
                 cleanCurrentCell(gridMinesweeper, row, column)
@@ -63,11 +62,11 @@ export const GameMinesweeper = ({onStatusLost, onStatusWin }: props) => {
         const cellClicked = gridMinesweeper[row][column]
         
         if (cellClicked.status === "hidden") { // Click Right in hidden cell
-            setMines(mines - 1)
+            subMines()
             cellClicked.status = "marked"
             
         } else if (cellClicked.status === "marked") { // Click Right in marked cell
-            setMines(mines + 1)
+            sumMines()
             cellClicked.status = "hidden"
         }
         

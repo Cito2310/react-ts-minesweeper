@@ -1,15 +1,16 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import { ProviderSettingMinesweeper } from './provider/ProviderSettingMinesweeper';
+
 import { ProviderSideBar } from './sidebar/ProviderSideBarController';
+import { ProviderMinesweeper } from './minesweeper-game/ProviderMinesweeper';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   // <React.StrictMode>
   <ProviderSideBar>
-    <ProviderSettingMinesweeper>
+    <ProviderMinesweeper>
       <App />
-    </ProviderSettingMinesweeper>
+    </ProviderMinesweeper>
   </ProviderSideBar>
   // </React.StrictMode>
 )
